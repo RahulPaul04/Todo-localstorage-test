@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="full-container">
+        <div class="todo">
+            <div class="input">
+                <input id="input" type="text">
+                <button onclick="add_task()" class="button">ADD</button>
+            </div>
+            <div class="tasks">
+                
+                
+            </div>
+        </div>
+    </div>
+</body>
+
+    <script>
+
+
+        stored_tasks = localStorage.getItem("tasks")
+        if(stored_tasks){
+            tasks = document.querySelector(".tasks")
+            tasks.innerHTML = stored_tasks
+
+        }
+
+        let all_tasks = document.querySelector(".tasks")
+        if(all_tasks.innerHTML != ""){
+            
+            task_Array = Array.of(all_tasks)
+            console.log(task_Array[0]);
+        }
+
+
+        checked_elemet = document.querySelectorAll(".complete")
+        checked_elemet.forEach((e) =>{
+            e.addEventListener("click",(element) =>{
+
+                console.log(element)
+                let completed = element.target
+
+                parent = completed.parentNode
+                if(parent.classList.contains("completed")){
+                    completed.classList.remove("checked")
+                    completed.parentNode.classList.remove("completed")
+                }
+                else{
+                    completed.classList.add("checked")
+                    completed.parentNode.classList.add("completed")
+                }
+                let tasks = document.querySelector(".tasks")
+                localStorage.setItem("tasks",tasks.innerHTML)
+                })
+
+        })
+
+        close_element = document.querySelectorAll(".close")
+
+        close_element.forEach((e) =>{
+            e.addEventListener('click',(element)=>{
+                element.target.parentElement.remove()
+                let tasks = document.querySelector(".tasks")
+                localStorage.setItem("tasks",tasks.innerHTML)
+            })
+
+        })
+
+
+
+
+        const add_task = () =>{
+
+            data_input = document.querySelector("#input")
+
+            input_val = data_input.value.trim()
+
+            if(input_val == ""){
+                alert("Enter a task")
+                return
+            }
+
+            tasks = document.querySelector(".tasks")
+
+            task = document.createElement("div")
+            task.classList.add("task")
+            check = document.createElement("div")
+            check.classList.add("complete")
+
+
+            data = document.createElement("div")
+
+
+
+            data.classList.add("data")
+            data.innerText = input_val
+            close_btn = document.createElement("div")
+            close_btn.classList.add("close")
+            close_btn.innerText = "Close"
+
+            task.appendChild(check)
+            task.appendChild(data)
+            task.appendChild(close_btn)
+
+            tasks.appendChild(task)
+            
+            data_input.value = ""
+
+            localStorage.setItem("tasks",tasks.innerHTML)
+
+            check.addEventListener("click",(element) =>{
+
+            console.log(element)
+            let completed = element.target
+            
+            parent = completed.parentNode
+            if(parent.classList.contains("completed")){
+                completed.classList.remove("checked")
+                completed.parentNode.classList.remove("completed")
+            }
+            else{
+                completed.classList.add("checked")
+                completed.parentNode.classList.add("completed")
+            }
+            let tasks = document.querySelector(".tasks")
+            localStorage.setItem("tasks",tasks.innerHTML)
+            })
+
+            close_btn.addEventListener('click',(element)=>{
+                element.target.parentElement.remove()
+                let tasks = document.querySelector(".tasks")
+                localStorage.setItem("tasks",tasks.innerHTML)
+            })
+
+
+            
+
+        }
+
+    
+    </script>
+</html>
